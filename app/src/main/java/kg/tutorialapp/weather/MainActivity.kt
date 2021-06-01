@@ -24,7 +24,92 @@ class MainActivity : AppCompatActivity() {
 
         //fetchWeather()
         //fetchWeatherUsingQuery()
-        fetchPostById()
+        //fetchPostById()
+        //createPost()
+        //createPostUsingFields()
+        createPostUsingFieldMap()
+    }
+
+    private fun createPostUsingFieldMap() {
+        val map = HashMap<String, String>().apply {
+            put("userId", "55")
+            put("title", "SUP")
+            put("body", "Chuy")
+        }
+
+        val call = postsApi.createPostUsingFieldMap(map)
+
+        call.enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                val resultPost = response.body()
+
+                resultPost?.let {
+                    val resultText = "ID: " + it.id + "\n" +
+                            "userID: " + it.userId + "\n" +
+                            "TITLE: " + it.title + "\n" +
+                            "BODY: " + it.body + "\n"
+
+                    textView.text = resultText
+                }
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        } )
+    }
+
+    private fun createPostUsingFields() {
+
+        val call = postsApi.createPostUsingFields(userId = 99, title = "Hi!", body = "KARAKOL")
+
+        call.enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                val resultPost = response.body()
+
+                resultPost?.let {
+                    val resultText = "ID: " + it.id + "\n" +
+                            "userID: " + it.userId + "\n" +
+                            "TITLE: " + it.title + "\n" +
+                            "BODY: " + it.body + "\n"
+
+                    textView.text = resultText
+                }
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        } )
+    }
+
+    private fun createPost() {
+        // backend will generate & save new id, if we know id we should use @Put or @Patch
+        val post = Post(userId = "42", title = "Hello", body = "BISHKEK")
+
+        val call = postsApi.createPost(post)
+
+        call.enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                val resultPost = response.body()
+
+                resultPost?.let {
+                    val resultText = "ID: " + it.id + "\n" +
+                            "userID: " + it.userId + "\n" +
+                            "TITLE: " + it.title + "\n" +
+                            "BODY: " + it.body + "\n"
+
+                    textView.text = resultText
+                }
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        } )
     }
 
     private fun fetchPostById() {
