@@ -16,6 +16,7 @@ interface PostsApi {
             @Path("id") id: Int // аннотация @Path, можем прописать пути
     ): Call<Post>
 
+
     @POST("posts")
     fun createPost(
             @Body post: Post
@@ -34,4 +35,23 @@ interface PostsApi {
     fun createPostUsingFieldMap(
             @FieldMap map: Map<String, String>
     ): Call<Post>
+
+
+    @PUT("posts/{id}")
+    fun putPost(
+            @Path("id") id: String,
+            @Body post: Post
+    ): Call<Post>
+
+    @PATCH("posts/{id}")
+    fun patchPost(
+            @Path("id") id: String,
+            @Body post: Post
+    ): Call<Post>
+
+
+    @DELETE("posts/{id}")
+    fun deletePost(
+            @Path("id") id: String
+    ): Call<Unit>
 }
