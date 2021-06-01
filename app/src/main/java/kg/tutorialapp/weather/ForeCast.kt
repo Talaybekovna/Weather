@@ -1,6 +1,8 @@
 package kg.tutorialapp.weather
 
 import com.google.gson.annotations.SerializedName
+//#1
+// vars from openWeatherMap.org -> Api -> One Call Api -> Api Doc -> Example of API response
 
 data class ForeCast(
         var lat: Double? = null,
