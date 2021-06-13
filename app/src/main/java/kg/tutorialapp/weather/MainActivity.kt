@@ -16,24 +16,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var textView2: TextView
 
-    //#3
-    private val retrofit by lazy {
-        Retrofit.Builder()
-//                .baseUrl("https://api.openweathermap.org/data/2.5/")
-                .baseUrl("https://jsonplaceholder.typicode.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okhttp)
-                .build()
-    }
 
-    //#4
-    private val weatherApi by lazy {
-        retrofit.create(WeatherApi::class.java)
-    }
-
-    private val postsApi by lazy {
-        retrofit.create(PostsApi::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deletePost() {
-        val call = postsApi.deletePost("42")
+        val call = PostClient.postsApi.deletePost("42")
 
         call.enqueue(object: Callback<Unit>{
             override fun onFailure(call: Call<Unit>, t: Throwable) {
@@ -70,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     private fun updatePost() {
         val newPost = Post(userId = "20", body = "this is body") //title = "this is title",
 
-        val call = postsApi.patchPost(id = "42", post = newPost)
+        val call = PostClient.postsApi.patchPost(id = "42", post = newPost)
 
         call.enqueue(object: Callback<Post>{
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
@@ -100,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             put("body", "Chuy")
         }
 
-        val call = postsApi.createPostUsingFieldMap(map)
+        val call = PostClient.postsApi.createPostUsingFieldMap(map)
 
         call.enqueue(object: Callback<Post>{
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
@@ -125,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createPostUsingFields() {
 
-        val call = postsApi.createPostUsingFields(userId = 99, title = "Hi!", body = "KARAKOL")
+        val call = PostClient.postsApi.createPostUsingFields(userId = 99, title = "Hi!", body = "KARAKOL")
 
         call.enqueue(object: Callback<Post>{
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
@@ -152,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         // backend will generate & save new id, if we know id we should use @Put or @Patch
         val post = Post(userId = "42", title = "Hello", body = "BISHKEK")
 
-        val call = postsApi.createPost(post)
+        val call = PostClient.postsApi.createPost(post)
 
         call.enqueue(object: Callback<Post>{
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
@@ -176,7 +159,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchPostById() {
-        val call = postsApi.fetchPostById(10)
+        val call = PostClient.postsApi.fetchPostById(10)
 
         call.enqueue(object: Callback<Post>{
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
@@ -201,7 +184,7 @@ class MainActivity : AppCompatActivity() {
 
     //#5
     private fun fetchWeatherUsingQuery() {
-        val call = weatherApi.fetchWeatherUsingQuery(lat = 40.513996, lon = 72.816101)
+        val call = WeatherClient.weatherApi.fetchWeatherUsingQuery(lat = 40.513996, lon = 72.816101)
 
         call.enqueue(object : Callback<ForeCast> {
             override fun onFailure(call: Call<ForeCast>, t: Throwable) {
@@ -229,7 +212,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchWeather() {
-        val call = weatherApi.fetchWeather()
+        val call = WeatherClient.weatherApi.fetchWeather()
 
         call.enqueue(object : Callback<ForeCast> {
             override fun onFailure(call: Call<ForeCast>, t: Throwable) {
@@ -254,12 +237,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    private val okhttp by lazy {
-        val interceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
-
-        OkHttpClient.Builder().addInterceptor(interceptor).build()
     }
 
 
