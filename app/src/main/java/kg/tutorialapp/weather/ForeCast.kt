@@ -1,10 +1,14 @@
 package kg.tutorialapp.weather
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 //#1
 // vars from openWeatherMap.org -> Api -> One Call Api -> Api Doc -> Example of API response
-
+@Entity
 data class ForeCast(
+        @PrimaryKey(autoGenerate = true)
+        val id: Long? = null,
         var lat: Double? = null,
         var lon: Double? = null,
         var timezone: String? = null,
