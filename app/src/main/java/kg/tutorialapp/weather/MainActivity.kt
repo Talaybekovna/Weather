@@ -1,9 +1,17 @@
 package kg.tutorialapp.weather
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kg.tutorialapp.weather.network.PostsApi
 import kg.tutorialapp.weather.network.WeatherApi
 import okhttp3.OkHttpClient
@@ -15,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var textView: TextView
     lateinit var textView2: TextView
-
+    lateinit var btn_start: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +32,9 @@ class MainActivity : AppCompatActivity() {
 
         textView = findViewById(R.id.textView)
         textView2 = findViewById(R.id.textView2)
+        btn_start = findViewById(R.id.btn_start)
+
+        setup()
 
         //fetchWeather()
         //fetchWeatherUsingQuery()
@@ -32,8 +43,84 @@ class MainActivity : AppCompatActivity() {
         //createPostUsingFields()
         //createPostUsingFieldMap()
         //updatePost()
-        deletePost()
+        //deletePost()
     }
+
+    private fun setup() {
+        btn_start.setOnClickListener {
+//            doSomeWork()
+            makeRxCall()
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun makeRxCall() {
+
+        val textView: TextView = findViewById(R.id.textView)
+        val textView2: TextView = findViewById(R.id.textView2)
+
+        WeatherClient.weatherApi.fetchWeather()
+            .subscribeOn(Schedulers.io())     // на io-потоке будет запрос на сервер
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                textView.text = it.current?.weather[0].description
+                textView2.text = it.current?.temp?.toString()
+            }, {
+                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+            })
+    }
+
+    // just, create, fromCallable(), fromIterable()
+    // disposable, compositeDisposable, clear(), dispose()
+    // map, flatMap, zip
+    private fun doSomeWork() {
+
+        // наблюдаемый, Publisher
+        val observable = Observable.create<String> { emitter -> // emit=излучать, издавать
+            Log.d(TAG, "${Thread.currentThread().name} starting emitting")
+            Thread.sleep(3000)
+            emitter.onNext("Hello")
+            Thread.sleep(1000)
+            emitter.onNext("Bishkek")
+            emitter.onComplete()
+
+        }
+
+        // наблюдатель, Subscriber
+        val observer = object: Observer<String>{
+
+            override fun onSubscribe(d: Disposable) {
+
+            }
+
+            override fun onNext(t: String) {
+                Log.d(TAG, "${Thread.currentThread().name} OnNext() $t")
+            }
+
+            override fun onError(e: Throwable) {
+
+            }
+
+            override fun onComplete() {
+
+            }
+        }
+
+        observable
+                .subscribeOn(Schedulers.computation())   // спец-й поток д/тяжелых вычислений / для observable
+                .map {
+                    Log.d(TAG, "${Thread.currentThread().name} starting mapping")
+                    it.toUpperCase()        // mapping=преобразование, изменение, отображение
+                }
+                .observeOn(AndroidSchedulers.mainThread())   // observe б/обрабатывать в главном потоке
+                .subscribe(observer)    // наблюдатель подписался на наблюдаемого
+    }
+
+    companion object{
+        const val TAG = "RX"
+    }
+
+    /*---------call retrofit-------*/
 
     private fun deletePost() {
         val call = PostClient.postsApi.deletePost("42")
@@ -211,7 +298,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun fetchWeather() {
+/*    private fun fetchWeather() {
         val call = WeatherClient.weatherApi.fetchWeather()
 
         call.enqueue(object : Callback<ForeCast> {
@@ -238,6 +325,6 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
-
+*/
 
 }
