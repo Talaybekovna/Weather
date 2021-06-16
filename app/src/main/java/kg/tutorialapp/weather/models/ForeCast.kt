@@ -1,4 +1,4 @@
-package kg.tutorialapp.weather
+package kg.tutorialapp.weather.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,10 +13,15 @@ data class ForeCast(
         var lon: Double? = null,
         var timezone: String? = null,
         var timezone_offset: Long? = 0L,
-        var current: CurrentForeCast,
-        var hourly: List<HourlyForeCast>,
-        var daily: List<DailyForeCast>
-)
+        var current: CurrentForeCast? = null,
+        var hourly: List<HourlyForeCast>? = null,
+        val daily: List<DailyForeCast>? = null
+){
+        override fun toString(): String {
+                return "ID: ${id?.toString()} \nLAT: ${lat?.toString()} \nLON: ${lon?.toString()} " +
+                        "\nDESC: ${current?.weather?.get(0)?.description} \n\n"
+        }
+}
 
 data class CurrentForeCast(
         @SerializedName("dt")

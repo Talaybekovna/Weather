@@ -5,11 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import kg.tutorialapp.weather.ForeCast
+import kg.tutorialapp.weather.models.ForeCast
 
 @Database(
     entities = [ForeCast::class],
-    version = 0,
+    version = 1,
     exportSchema = false
 )
 

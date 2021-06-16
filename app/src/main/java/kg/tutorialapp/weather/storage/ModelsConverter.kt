@@ -1,15 +1,17 @@
 package kg.tutorialapp.weather.storage
 
+import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kg.tutorialapp.weather.CurrentForeCast
-import kg.tutorialapp.weather.ForeCast
+import kg.tutorialapp.weather.models.CurrentForeCast
 
 class ModelsConverter {
 
-    fun fromCurrentForecastToJson(foreCast: ForeCast): String =         // serialization
+    @TypeConverter
+    fun fromCurrentForecastToJson(foreCast: CurrentForeCast?): String? =         // serialization
         Gson().toJson(foreCast)
 
-    fun fromJsonToCurrentForecast(json: String): CurrentForeCast =      // deserialization
+    @TypeConverter
+    fun fromJsonToCurrentForecast(json: String?): CurrentForeCast? =      // deserialization
         Gson().fromJson(json, object: TypeToken<CurrentForeCast>() {}.type)
 }
