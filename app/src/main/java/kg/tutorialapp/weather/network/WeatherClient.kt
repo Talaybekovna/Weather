@@ -19,8 +19,7 @@ object WeatherClient {
     //#3
     private val retrofit by lazy {
         Retrofit.Builder()
-//                .baseUrl("https://api.openweathermap.org/data/2.5/")
-                .baseUrl("https://jsonplaceholder.typicode.com/")
+                .baseUrl("https://api.openweathermap.org/data/2.5/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okhttp)
