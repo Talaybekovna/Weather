@@ -45,7 +45,7 @@
 
     <style name="WhiteSmallTextWithWaterIcon" parent="WhiteText">
         <item name="android:textSize">12sp</item>
-        <item name="drawableStartCompat">@drawable/ic_launcher_foreground</item>  //ic_water_drop
+        <item name="drawableStartCompat">@drawable/ic_baseline_invert_colors_24</item>  //ic_water_drop
     </style>
 
     <style name="WhiteMediumLargeTextWithIcon" parent="WhiteTextWithIcon">
