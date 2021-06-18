@@ -7,11 +7,11 @@ import com.google.gson.annotations.SerializedName
 // vars from openWeatherMap.org -> Api -> One Call Api -> Api Doc -> Example of API response
 @Entity
 data class ForeCast(
-        @PrimaryKey(autoGenerate = true)
         val id: Long? = null,
         var lat: Double? = null,
         var lon: Double? = null,
-        var timezone: String? = null,
+        @PrimaryKey
+        var timezone: String,
         var timezone_offset: Long? = 0L,
         var current: CurrentForeCast? = null,
         var hourly: List<HourlyForeCast>? = null,

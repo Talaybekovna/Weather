@@ -10,7 +10,7 @@ import kg.tutorialapp.weather.models.ForeCast
 interface ForeCastDao {
 
 //  @Insert, @Update, @Delete, @Query
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(foreCast: ForeCast)
 
     @Update

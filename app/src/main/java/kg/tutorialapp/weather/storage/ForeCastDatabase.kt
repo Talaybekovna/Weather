@@ -9,7 +9,7 @@ import kg.tutorialapp.weather.models.ForeCast
 
 @Database(
     entities = [ForeCast::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

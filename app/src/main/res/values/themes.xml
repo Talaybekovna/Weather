@@ -15,7 +15,7 @@
     </style>
 
     <style name="WhiteTextWithIcon" parent="WhiteText">
-        <item name="android:drawableEnd">@drawable/ic_launcher_foreground</item> //ic_celcius
+        <item name="android:drawableEnd">@drawable/celsius</item> //ic_celcius
     </style>
 
     <style name="WhiteSmallText" parent="WhiteText">
@@ -40,7 +40,7 @@
 
     <style name="WhiteSmallTextWithIcon" parent="WhiteTextWithIcon">
         <item name="android:textSize">12sp</item>
-        <item name="drawableEndCompat">@drawable/ic_launcher_foreground</item>  //celcius_24dp
+        <item name="drawableEndCompat">@drawable/celsius_24</item>  //celcius_24dp
     </style>
 
     <style name="WhiteSmallTextWithWaterIcon" parent="WhiteText">
@@ -50,7 +50,7 @@
 
     <style name="WhiteMediumLargeTextWithIcon" parent="WhiteTextWithIcon">
         <item name="android:textSize">14sp</item>
-        <item name="drawableEndCompat">@drawable/ic_launcher_foreground</item>  //celcius_24dp
+        <item name="drawableEndCompat">@drawable/celsius_24</item>  //celcius_24dp
     </style>
 
 </resources>
