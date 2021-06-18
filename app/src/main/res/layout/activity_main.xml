@@ -9,7 +9,7 @@
     android:background="@color/mild_blue"
     android:fitsSystemWindows="false"
     app:layoutDescription="@xml/motion"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <ProgressBar
         android:id="@+id/progress"
