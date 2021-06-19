@@ -16,12 +16,14 @@ import kg.tutorialapp.weather.models.ForeCast
 import kg.tutorialapp.weather.network.WeatherClient
 import kg.tutorialapp.weather.storage.ForeCastDatabase
 import kg.tutorialapp.weather.ui.rv.DailyForeCastAdapter
+import kg.tutorialapp.weather.ui.rv.HourlyForeCastAdapter
 import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var dailyForeCastAdapter: DailyForeCastAdapter
+    private lateinit var hourlyForeCastAdapter: HourlyForeCastAdapter
 
     private val db by lazy {
         ForeCastDatabase.getInstance(applicationContext)
@@ -52,6 +54,8 @@ class MainActivity : AppCompatActivity() {
         dailyForeCastAdapter = DailyForeCastAdapter()
         binding.rvDailyForecast.adapter = dailyForeCastAdapter
 
+        hourlyForeCastAdapter = HourlyForeCastAdapter()
+        binding.rvHourlyForecast.adapter = hourlyForeCastAdapter
     }
 
     private fun showLoading() {
@@ -88,7 +92,11 @@ class MainActivity : AppCompatActivity() {
                 loadWeatherIcon(it)
 
                 it.daily?.let {dailyList ->
-                    dailyForeCastAdapter.setItems(dailyList)
+                    dailyForeCastAdapter.setItemsDaily(dailyList)
+                }
+
+                it.hourly?.let { hourlyList ->
+                    hourlyForeCastAdapter.setItemsHourly(hourlyList)
                 }
             }
         })

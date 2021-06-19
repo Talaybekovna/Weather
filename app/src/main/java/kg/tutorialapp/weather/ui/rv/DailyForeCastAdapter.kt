@@ -8,7 +8,7 @@ class DailyForeCastAdapter: RecyclerView.Adapter<DailyForeCastVH>() {
 
     private val items = arrayListOf<DailyForeCast>()
 
-    fun setItems(newItems: List<DailyForeCast>) {
+    fun setItemsDaily(newItems: List<DailyForeCast>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()
