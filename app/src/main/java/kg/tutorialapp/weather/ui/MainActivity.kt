@@ -2,10 +2,13 @@ package kg.tutorialapp.weather.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.google.firebase.messaging.FirebaseMessaging
 import kg.tutorialapp.weather.databinding.ActivityMainBinding
 import kg.tutorialapp.weather.Extensions.format
 import kg.tutorialapp.weather.models.Constants
@@ -35,11 +38,20 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerViews()
         subscribeToLiveData()
 
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            Log.i("TOKEN", it)
+        }
+
+        intent.getStringExtra("EXTRA")?.let {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        }
+
     }
 
 
     private fun setupViews() {
         binding.tvRefresh.setOnClickListener {
+            vm.showLoading()
             vm.getWeatherFromApi()
         }
     }
